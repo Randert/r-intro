@@ -40,19 +40,36 @@ nrow(ed.data)
 
 # What was the most expensive school in 2014 (base R calculation)?
 most.expensive <- ed.data[ed.data$tuition.2014 == max(ed.data$tuition.2014),] # using basic R selection
+most.expensive$tuition.2014
+#Most expensive is New England Culinary institute and it was $88550
 
 # What was the most expensive school in 2014 (using dplyr)?
 most.expensive <- ed.data %>% 
       filter(tuition.2014 == max(tuition.2014)) %>%  
       select(Name.of.institution)
+most.expensive$Name.of.institution
+#This also says most expensive is New England Culinary institute
 
 # What was the least expensive school in 2014?
+least.expensive <- ed.data %>% 
+  filter(tuition.2014 == min(tuition.2014)) %>%  
+  select(Name.of.institution, tuition.2014)
+#The least expensive was Diamond Beauty College and cost was $200
 
 
 #### What is the average annual tuition by sector in 2014? ####
+sector.anual.tuition <- ed.data %>%
+  group_by(Sector,Sector.name) %>%              
+  summarise(mean = mean(tuition.2014))
+
+sector.grouped <- ed.data %>%
+  group_by(Sector.name)
+
 
 
 # Show a `barplot of the cost by sector
+barplot(sector.anual.tuition$mean)
+
 
 
 #### How did the cost of UW rank against other Washington schools? ####
